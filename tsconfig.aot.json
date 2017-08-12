@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "es2015",
     "moduleResolution": "node",
     "target": "es5",
     "noImplicitAny": false,
@@ -17,12 +17,15 @@
     "rootDir": "."
   },
   "exclude": [
-    "node_modules",
-    "src/main.aot.ts",
-    "src/all.aot.ts",
-    "e2e",
-    "**/*.spec.ts",
-    "dynamodb_migrations",
-    "server/*"
-  ]
+      "node_modules",
+      "src/main.ts",
+      "src/all.ts",
+      "e2e",
+      "**/*.spec.ts",
+      "dynamodb_migrations",
+      "server/*"
+  ],
+  "angularCompilerOptions": {
+    "genDir": "./dist/aot/ngfactory"
+  }
 }
