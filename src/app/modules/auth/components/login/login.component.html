@@ -1,0 +1,2 @@
+<p *ngIf="!authenticated()"><a (click)="login()">Login</a></p>
+<p *ngIf="authenticated()">Welcome, {{profile?.name}}! <a (click)="logout()">Logout</a></p>
