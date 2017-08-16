@@ -1,5 +1,5 @@
 <button (click)="create()">Create new match</button>
 
 <ul *ngFor="let match of matches">
-    <li>{{match.id}} - {{match.createdAt | date: 'medium'}}</li>
+    <li><a routerLink="/matches/{{match.id}}" routerLinkActive="active">{{match.id}}</a> - {{match.createdAt | date: 'medium'}}</li>
 </ul>

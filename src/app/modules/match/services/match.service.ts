@@ -22,4 +22,8 @@ export class MatchService {
         this.matches.push(match);
     }
 
+    find(id) {
+        return this.matches.filter((match) => match.id == id)[0];
+    }
+
 }
