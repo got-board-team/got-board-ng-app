@@ -16,12 +16,14 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
         this.titleService.setTitle('DashBid Apps | Login');
 
-        if (this.auth.userProfile) {
-            this.profile = this.auth.userProfile;
-        } else {
-            this.auth.getProfile((err, profile) => {
-                this.profile = profile;
-            });
+        if (this.authenticated()) {
+            if (this.auth.userProfile) {
+                this.profile = this.auth.userProfile;
+            } else {
+                this.auth.getProfile((err, profile) => {
+                    this.profile = profile;
+                });
+            }
         }
     }
 
