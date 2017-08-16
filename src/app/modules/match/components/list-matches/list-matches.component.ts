@@ -17,4 +17,8 @@ export class ListMatchesComponent implements OnInit {
         this.matches = this.matchService.all();
     }
 
+    create() {
+        this.matchService.create();
+    }
+
 }

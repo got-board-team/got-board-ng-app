@@ -1,3 +1,5 @@
+<button (click)="create()">Create new match</button>
+
 <ul *ngFor="let match of matches">
     <li>{{match.id}} - {{match.createdAt | date: 'medium'}}</li>
 </ul>
