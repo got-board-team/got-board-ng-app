@@ -8,11 +8,14 @@ import { AuthService } from './services/auth.service';
 import { LoginComponent } from './components/login/login.component';
 import { CallbackComponent } from './components/callback/callback.component';
 
+const COMPONENTS = [LoginComponent, CallbackComponent];
+const SERVICES = [AuthService, Title];
+
 @NgModule({
-    declarations: [LoginComponent, CallbackComponent],
+    declarations: COMPONENTS,
     imports: [RouterModule.forRoot(ROUTES), CommonModule],
-    exports: [LoginComponent, CallbackComponent],
-    providers: [AuthService, Title]
+    exports: COMPONENTS,
+    providers: SERVICES
 })
 export class AuthModule {
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MatchService } from '../../services/match.service';
+import { Match } from '../../models/match';
 
 @Component({
     selector: 'app-show-match',

@@ -1,4 +1,6 @@
-<button (click)="create()">Create new match</button>
+<login></login>
+
+<button (click)="create()" *ngIf="authenticated()">Create new match</button>
 
 <ul *ngFor="let match of matches">
     <li><a routerLink="/matches/{{match.id}}" routerLinkActive="active">{{match.id}}</a> - {{match.createdAt | date: 'medium'}}</li>

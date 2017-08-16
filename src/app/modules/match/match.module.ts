@@ -4,15 +4,21 @@ import { RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { ROUTES } from './match.routes';
 
+import { AuthModule } from '../auth/auth.module';
+
 import { MatchService } from './services/match.service';
+
 import { ListMatchesComponent } from './components/list-matches/list-matches.component';
 import { ShowMatchComponent } from './components/show-match/show-match.component';
 
+const COMPONENTS = [ListMatchesComponent, ShowMatchComponent];
+const SERVICES = [MatchService, Title];
+
 @NgModule({
-    declarations: [ListMatchesComponent, ShowMatchComponent],
-    imports: [RouterModule.forRoot(ROUTES), CommonModule],
-    exports: [ListMatchesComponent, ShowMatchComponent],
-    providers: [MatchService, Title]
+    declarations: COMPONENTS,
+    imports: [RouterModule.forRoot(ROUTES), CommonModule, AuthModule],
+    exports: COMPONENTS,
+    providers: SERVICES
 })
 export class MatchModule {
 

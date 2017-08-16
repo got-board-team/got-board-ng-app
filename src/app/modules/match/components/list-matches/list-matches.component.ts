@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatchService } from '../../services/match.service';
+import { AuthService } from '../../../auth/services/auth.service';
 import { Match } from '../../models/match';
 
 @Component({
@@ -11,7 +12,7 @@ export class ListMatchesComponent implements OnInit {
 
     matches:Array<Match>;
 
-    constructor(private matchService:MatchService) { }
+    constructor(private matchService: MatchService, private auth: AuthService) { }
 
     ngOnInit() {
         this.matches = this.matchService.all();
@@ -19,6 +20,10 @@ export class ListMatchesComponent implements OnInit {
 
     create() {
         this.matchService.create();
+    }
+
+    authenticated() {
+        return this.auth.isAuthenticated();
     }
 
 }
