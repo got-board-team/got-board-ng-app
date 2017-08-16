@@ -6,7 +6,7 @@ export const ROUTES:Routes = [
     pathMatch: 'full'
   },
   { path: '**',
-    redirectTo: '/auth/login',
+    redirectTo: '/matches',
     pathMatch: 'full'
   },
 ];

@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { ROUTES } from './app.routes';
 
 import { AuthModule } from './modules/auth/auth.module';
+import { MatchModule } from './modules/match/match.module';
 
 @NgModule({
     declarations: [
@@ -14,7 +15,8 @@ import { AuthModule } from './modules/auth/auth.module';
     imports: [
         BrowserModule,
         RouterModule.forRoot(ROUTES, {useHash: false}),
-        AuthModule
+        AuthModule,
+        MatchModule
     ],
     providers: [],
     bootstrap: [AppComponent]
