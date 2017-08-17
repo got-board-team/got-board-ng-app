@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from '../../services/auth.service';
+import { User } from '../../models/user';
 
 @Component({
     selector: 'login',
@@ -9,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-    profile: any;
+    user: User;
 
     constructor(public auth: AuthService, private titleService: Title) { }
 
@@ -17,11 +18,11 @@ export class LoginComponent implements OnInit {
         this.titleService.setTitle('DashBid Apps | Login');
 
         if (this.authenticated()) {
-            if (this.auth.userProfile) {
-                this.profile = this.auth.userProfile;
+            if (this.auth.user) {
+                this.user = this.auth.user;
             } else {
-                this.auth.getProfile((err, profile) => {
-                    this.profile = profile;
+                this.auth.getProfile((err, user) => {
+                    this.user = user;
                 });
             }
         }

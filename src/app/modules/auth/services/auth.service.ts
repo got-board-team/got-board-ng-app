@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import * as auth0 from 'auth0-js';
+import { User } from '../models/user';
 
 @Injectable()
 export class AuthService {
 
-    userProfile: any;
+    user: User;
 
     auth0 = new auth0.WebAuth({
         clientID: 'q2i-Ywn7kCl-FE6C-pBup2WVUB3yyPZJ',
@@ -73,9 +74,13 @@ export class AuthService {
         const self = this;
         this.auth0.client.userInfo(accessToken, (err, profile) => {
             if (profile) {
-                self.userProfile = profile;
+                self.user = new User({
+                    email: profile.name,
+                    nickname: profile.nickname,
+                    picture: profile.picture
+                });
             }
-            cb(err, profile);
+            cb(err, self.user);
         });
     }
 }

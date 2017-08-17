@@ -26,4 +26,9 @@ export class ListMatchesComponent implements OnInit {
         return this.auth.isAuthenticated();
     }
 
+    join(id) {
+        let user = this.auth.user;
+        this.matchService.join(id, this.auth.user.email);
+    }
+
 }

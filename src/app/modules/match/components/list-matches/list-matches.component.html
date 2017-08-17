@@ -3,5 +3,5 @@
 <button (click)="create()" *ngIf="authenticated()">Create new match</button>
 
 <ul *ngFor="let match of matches">
-    <li><a routerLink="/matches/{{match.id}}" routerLinkActive="active">{{match.id}}</a> - {{match.createdAt | date: 'medium'}}</li>
+    <li><a routerLink="/matches/{{match.id}}" routerLinkActive="active">{{match.id}}</a> - {{match.createdAt | date: 'medium'}} | Players count: {{match.spectators.length}} <a href="javascript:void(0)" (click)="join(match.id)">Join match!</a></li>
 </ul>
