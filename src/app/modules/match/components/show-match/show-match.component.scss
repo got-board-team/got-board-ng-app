@@ -1,0 +1,49 @@
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Verdana, Georgia, Serif;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+button {
+  cursor: pointer;
+}
+
+#board {
+  /* Striping out tracks original size 1980px */
+  width: 1500px;
+  height: 2975px;
+  margin-top: 4.5em;
+  position: relative;
+  background-image: url("images/board.jpg");
+}
+
+.piece {
+  background-repeat: no-repeat;
+  pointer-events: auto;
+  position: absolute;
+  transition-duration: 1s;
+  transition-property: top, left;
+
+  &:hover {
+    cursor: grab;
+    cursor: -webkit-grab;
+  }
+
+  &.is-dragging, &.is-pointer-down {
+    cursor: grabbing;
+    cursor: -webkit-grabbing;
+    transition: none;
+    z-index: 999;
+  }
+}
+
+.drop-actived {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+  background-color: white;
+  opacity: 0.7;
+}
