@@ -36,6 +36,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "core-js": "^2.4.1",
     "moment": "^2.18.1",
+    "ng2-drag-drop": "^2.6.0",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
   },

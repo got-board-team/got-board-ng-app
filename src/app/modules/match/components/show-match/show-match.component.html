@@ -1,3 +1,15 @@
 <a routerLink="/matches">Matches</a>
 
 <h1>Match {{match.id}} created at: {{match.createdAt | date: 'medium'}}</h1>
+
+<h2>This is the board!</h2>
+
+<ul>
+  <li draggable>Coffee</li>
+  <li draggable>Tea</li>
+  <li draggable>Milk</li>
+</ul>
+
+<div droppable>
+  <p>Drop items here</p>
+</div>

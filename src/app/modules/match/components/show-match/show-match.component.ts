@@ -20,4 +20,11 @@ export class ShowMatchComponent implements OnInit {
         });
     }
 
+    onItemDrop(e: any) {
+        // Get the dropped data here
+        //this.droppedItems.push(e.dragData);
+        console.log('Dropped');
+        console.log(e.dragData);
+    }
+
 }
