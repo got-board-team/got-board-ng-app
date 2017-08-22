@@ -1,15 +1,19 @@
 <a routerLink="/matches">Matches</a>
 
-<h1>Match {{match.id}} created at: {{match.createdAt | date: 'medium'}}</h1>
+<div *ngIf="match">
+    <h1>Match {{match.id}} created at: {{match.createdAt | date: 'medium'}}</h1>
 
-<h2>This is the board!</h2>
+    <h2>This is the board!</h2>
 
-<ul>
-  <li draggable>Coffee</li>
-  <li draggable>Tea</li>
-  <li draggable>Milk</li>
-</ul>
+    <ul>
+        <li *ngFor="let unit of units" [dragData]="unit" draggable>{{unit}}</li>
+    </ul>
 
-<div droppable>
-  <p>Drop items here</p>
+    <div *ngFor="let area of areas" droppable (onDrop)="onItemDrop($event, area)" style="border:1px solid #ccc;padding: 2em;">
+        <p>{{area.name}}</p>
+        <p>Total of units: {{area.units.length}}</p>
+        <p>Footmans: {{unitCount(area, 'footman')}}</p>
+        <p>Knights: {{unitCount(area, 'knight')}}</p>
+        <p>Sieges: {{unitCount(area, 'siege')}}</p>
+    </div>
 </div>

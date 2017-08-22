@@ -11,20 +11,34 @@ import { Match } from '../../models/match';
 export class ShowMatchComponent implements OnInit {
 
     match: Match;
+    areas = [ {name: 'winterfel', units: []},
+              {name: 'lannisport', units: []},
+              {name: 'dragonstone', units: []},
+              {name: 'pike', units: []},
+              {name: 'highgardens', units: []},
+              {name: 'sunspear', units: []} ];
+    units = ['footman', 'knight', 'siege'];
 
-    constructor(private activatedRoute: ActivatedRoute, private matchService:MatchService) { }
+    constructor(private activatedRoute: ActivatedRoute, private matchService: MatchService, public router: Router) { }
 
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
-            this.match = this.matchService.find(params['id']);
+            if (this.matchService.matches.length === 0) {
+                return this.router.navigate(['/matches']);
+            } else {
+                this.match = this.matchService.find(params['id']);
+            }
         });
     }
 
-    onItemDrop(e: any) {
-        // Get the dropped data here
-        //this.droppedItems.push(e.dragData);
-        console.log('Dropped');
-        console.log(e.dragData);
+    onItemDrop(e: any, area: any) {
+        console.log('Dropped unit: ', e.dragData);
+        area.units.push(e.dragData);
+        console.log('In area: ', area);
+    }
+
+    unitCount(area: any, unitType: string) {
+        return area.units.filter((u) => (u === unitType)).length;
     }
 
 }
