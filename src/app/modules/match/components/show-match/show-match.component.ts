@@ -47,7 +47,10 @@ export class ShowMatchComponent implements OnInit {
 
     match: Match;
     areas = MAP_AREAS;
-    units = ['footman', 'knight', 'siege'];
+    units = ['footman', 'knight', 'siege-engine', 'boat'];
+    areaUnit = { castle_black: {id: 13, units: [{id: 1, type: 'footman', x: 685, y: 347}]},
+                 karhold: {id: 14, units: []},
+                 winterfell: {id: 15, units: []} };
 
     constructor(private activatedRoute: ActivatedRoute, private matchService: MatchService, public router: Router) { }
 
@@ -63,12 +66,22 @@ export class ShowMatchComponent implements OnInit {
 
     onItemDrop(e: any, area: any) {
         console.log('Dropped unit: ', e.dragData);
-        //area.units.push(e.dragData);
         console.log('In area: ', area);
+        console.log('Event', e);
+        let realXPosition = e.nativeEvent.layerX - Math.round(80 / 2);
+        let realYPosition = e.nativeEvent.layerY - Math.round(89 / 2);
+        this.areaUnit[area.slug].units.push(
+            {id: 1, type: e.dragData, x: realXPosition, y: realYPosition}
+        );
+        console.log('areaUnit[area.slug]', this.areaUnit);
     }
 
     unitCount(area: any, unitType: string) {
         //return area.units.filter((u) => (u === unitType)).length;
+    }
+
+    unitAssetUrl(unit) {
+        return `/assets/units/baratheon-${unit.type}.png`;
     }
 
 }

@@ -3,20 +3,16 @@
 <div *ngIf="match">
     <h1>Match {{match.id}} created at: {{match.createdAt | date: 'medium'}}</h1>
 
-    <h2>This is the board!</h2>
-
-    <ul>
-        <li *ngFor="let unit of units" [dragData]="unit" draggable>{{unit}}</li>
-    </ul>
-
-    <p>Total of units: {{areas.length}}</p>
-
-    <div *ngFor="let area of areas">
-        <p>{{area.names.en}}</p>
+    <div style="display:flex;">
+        <div *ngFor="let unit of units" [dragData]="unit" draggable class="unit {{unit}}">{{unit}}</div>
     </div>
 
     <svg id="board">
-        <svg:foreignObject class="container" *ngFor="let area of areas" droppable (onDrop)="onItemDrop($event, area)"></foreignObject>
-        <svg:path class="territory" *ngFor="let area of areas" [attr.d]="area.path" />
+        <g *ngFor="let area of areas" [id]="area.id" class="territory" droppable (onDrop)="onItemDrop($event, area)" [dragHintClass]="'drop-hint'" [dragOverClass]="'drag-over'">
+            <ng-container *ngIf="areaUnit[area.slug]">
+                <image *ngFor="let unit of areaUnit[area.slug].units" [attr.xlink:href]="unitAssetUrl(unit)" [attr.x]="unit.x" [attr.y]="unit.y" height="89px" width="80px"></image>
+            </ng-container>
+            <svg:path class="territory" [attr.d]="area.path" />
+        </g>
     </svg>
 </div>

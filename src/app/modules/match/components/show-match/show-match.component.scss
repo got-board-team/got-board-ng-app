@@ -18,7 +18,7 @@ button {
   height: 2975px;
   margin-top: 4.5em;
   position: relative;
-  background-image: url("images/board.jpg");
+  background-image: url("/assets/board.jpg");
 }
 
 .piece {
@@ -41,9 +41,60 @@ button {
   }
 }
 
-.drop-actived {
+.drop-over {
   cursor: grabbing;
   cursor: -webkit-grabbing;
   background-color: white;
+  fill: white;
   opacity: 0.7;
+}
+
+.drop-hint {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+  background-color: blue;
+  fill: blue;
+  opacity: 0.3;
+}
+
+.territory {
+  fill: none;
+  stroke: none;
+  pointer-events: all;
+
+  &:hover {
+    fill: rgba(255,255,255,.2);
+  }
+
+  &.drop-actived {
+    path {
+      fill: white;
+      opacity: 0.7;
+    }
+  }
+}
+
+.unit {
+  background-repeat: no-repeat;
+  width: 80px;
+  height: 89px;
+  text-indent: -15000px;
+  cursor: move;
+
+  &.footman {
+    background-image: url("/assets/units/baratheon-footman.png");
+  }
+
+  &.knight {
+    background-image: url("/assets/units/baratheon-knight.png");
+    height: 97px;
+  }
+
+  &.siege-engine {
+    background-image: url("/assets/units/baratheon-siege-engine.png");
+  }
+
+  &.boat {
+    background-image: url("/assets/units/baratheon-boat.png");
+  }
 }
