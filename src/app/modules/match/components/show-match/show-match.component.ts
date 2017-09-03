@@ -51,7 +51,6 @@ export class ShowMatchComponent implements OnInit {
     areaUnit = { castle_black: {id: 13, units: [{id: 1, type: 'footman', x: 685, y: 347}]},
                  karhold: {id: 14, units: []},
                  winterfell: {id: 15, units: []} };
-    movingUnit:any;
 
     constructor(private activatedRoute: ActivatedRoute, private matchService: MatchService, public router: Router) { }
 
@@ -77,29 +76,24 @@ export class ShowMatchComponent implements OnInit {
         console.log('areaUnit[area.slug]', this.areaUnit);
     }
 
-    test(event:any) {
-        console.log('test', event);
+    @HostListener('mouseup', ['$event'])
+    onMouseup(event: MouseEvent) {
+        console.log('event mouseup', event);
+        document.removeEventListener('mousemove', this.onMousemove, true);
     }
 
-    // @HostListener('mouseup', ['$event'])
-    // onMouseup(event: MouseEvent) {
-    //     console.log('event mouseup', event);
-    //     document.removeEventListener('mousemove', this.onMousemove, true);
-    // }
+    @HostListener('mousedown', ['$event'])
+    onMousedown(event: MouseEvent) {
+        console.log('event mousedown', event);
+        document['targetUnit'] = event.target;
+        document.addEventListener('mousemove', this.onMousemove, true);
+    }
 
-    // @HostListener('mousedown', ['$event'])
-    // onMousedown(event: MouseEvent) {
-    //     console.log('event mousedown', event);
-    //     this.movingUnit = event.target;
-    //     document.addEventListener('mousemove', this.onMousemove, true);
-    // }
-
-    // onMousemove(event: MouseEvent) {
-    //     console.log('event moving: ', event);
-    //     console.log(this.movingUnit);
-    //     // this.movingUnit.style.top = event.screenY + 'px';
-    //     // this.movingUnit.style.left = event.screenX + 'px';
-    //     // event.target.style.top = event.screenY + 'px';
-    //     // event.target.style.left = event.screenX + 'px';
-    // }
+    onMousemove(event: MouseEvent) {
+        console.log('event moving: ', event);
+        document['targetUnit'].style.top = event.screenY + 'px';
+        document['targetUnit'].style.left = event.screenX + 'px';
+        // event.target.style.top = event.screenY + 'px';
+        // event.target.style.left = event.screenX + 'px';
+    }
 }

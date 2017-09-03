@@ -1,11 +1,11 @@
-<a routerLink="/matches">Matches</a>
+<a routerLink="/matches" *ngIf="false">Matches</a>
 
 <div *ngIf="match">
-    <h1>Match {{match.id}} created at: {{match.createdAt | date: 'medium'}}</h1>
+    <h1 *ngIf="false">Match {{match.id}} created at: {{match.createdAt | date: 'medium'}}</h1>
 
-    <div style="display:flex;justify-content:space-between;">
+    <div *ngIf="false" style="display:flex;justify-content:space-between;">
         <div style="display:flex;">
-            <div *ngFor="let unit of units" [dragData]="unit" draggable (dragend)="test($event)" class="unit {{unit}}">{{unit}}</div>
+            <div *ngFor="let unit of units" [dragData]="unit" draggable class="unit {{unit}}">{{unit}}</div>
         </div>
 
         <div style="width: 400px;height: 200px;background: rebeccapurple;">
