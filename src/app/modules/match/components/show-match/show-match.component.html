@@ -1,29 +1,29 @@
-<a routerLink="/matches" *ngIf="false">Matches</a>
-
 <div *ngIf="match">
-    <h1 *ngIf="false">Match {{match.id}} created at: {{match.createdAt | date: 'medium'}}</h1>
-
-    <div *ngIf="false" style="display:flex;justify-content:space-between;">
+    <div style="display:flex;justify-content:space-between;">
         <div style="display:flex;">
-            <div *ngFor="let unit of units" [dragData]="unit" draggable class="unit {{unit}}">{{unit}}</div>
+            <div *ngFor="let unit of units" class="unit {{unit}}" [attr.data-unit-type]="unit" [attr.data-unit-new]="true">{{unit}}</div>
         </div>
 
-        <div style="width: 400px;height: 200px;background: rebeccapurple;">
-            <div droppable (onDrop)="onItemDrop($event, area)" [dragHintClass]="'drop-hint'" [dragOverClass]="'drag-over'"></div>
+        <div>
+            <a routerLink="/matches">Matches</a><br />
+            <h1>Match {{match.id}} created at: {{match.createdAt | date: 'medium'}}</h1>
         </div>
     </div>
 
     <div id="board">
+        <ng-container *ngIf="boardUnits.length > 0">
+            <div *ngFor="let unit of boardUnits" [id]="unit.id" class="unit {{unit.type}}" [attr.data-unit-type]="unit.type" [style.top]="unit.y + 'px'" [style.left]="unit.x + 'px'">{{unit.type}} unit</div>
+        </ng-container>
+
         <ng-container *ngFor="let area of areas">
             <ng-container *ngIf="areaUnit[area.slug]">
-                <div *ngFor="let unit of areaUnit[area.slug].units" class="unit {{unit.type}}">{{unit.type}} unit</div>
+                <div *ngFor="let unit of areaUnit[area.slug].units" [id]="unit.id" class="unit {{unit.type}}" [attr.data-unit-type]="unit.type" [style.top]="unit.y + 'px'" [style.left]="unit.x + 'px'">{{unit.type}} unit in {{area.slug}}</div>
             </ng-container>
         </ng-container>
 
         <svg>
             <ng-container *ngFor="let area of areas">
-                <g [id]="area.id" droppable (onDrop)="onItemDrop($event, area)" [dragHintClass]="'drop-hint'" [dragOverClass]="'drag-over'"></g>
-                <svg:path class="territory" [attr.d]="area.path" />
+                <svg:path class="territory" [attr.d]="area.path" [id]="area.slug" />
             </ng-container>
         </svg>
     </div>

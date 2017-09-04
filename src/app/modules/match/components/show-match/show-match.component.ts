@@ -48,6 +48,7 @@ export class ShowMatchComponent implements OnInit {
     match: Match;
     areas = MAP_AREAS;
     units = ['footman', 'knight', 'siege-engine', 'boat'];
+    boardUnits = [];
     areaUnit = { castle_black: {id: 13, units: [{id: 1, type: 'footman', x: 685, y: 347}]},
                  karhold: {id: 14, units: []},
                  winterfell: {id: 15, units: []} };
@@ -64,36 +65,41 @@ export class ShowMatchComponent implements OnInit {
         });
     }
 
-    onItemDrop(e: any, area: any) {
-        console.log('Dropped unit: ', e.dragData);
-        console.log('In area: ', area);
-        console.log('Event', e);
-        let realXPosition = e.nativeEvent.layerX - Math.round(80 / 2);
-        let realYPosition = e.nativeEvent.layerY - Math.round(89 / 2);
-        this.areaUnit[area.slug].units.push(
-            {id: 1, type: e.dragData, x: realXPosition, y: realYPosition}
-        );
-        console.log('areaUnit[area.slug]', this.areaUnit);
-    }
-
     @HostListener('mouseup', ['$event'])
     onMouseup(event: MouseEvent) {
-        console.log('event mouseup', event);
         document.removeEventListener('mousemove', this.onMousemove, true);
+        if (!this.areaUnit[event.target['id']]) return;
+        if (this.areaUnit[event.target['id']].units.map((unit) => unit.id).indexOf(parseInt(document['movingElement'].getAttribute('id'))) !== -1) return;
+
+        // TODO: Prevent from creating a new unit if moving to another area. Should change the unit area instead.
+        // TODD: Move this temp logic to a service to be deleted in the future.
+
+        let id = this.areaUnit[event.target['id']].units.length + 1;
+        this.areaUnit[event.target['id']].units.push(
+            {id: id, type: document['movingElement'].getAttribute('data-unit-type'), x: event.screenX, y: event.screenY}
+        );
+
+        this.boardUnits = []; // remove temp element
+        console.log('moved', this.areaUnit[event.target['id']].units);
     }
 
     @HostListener('mousedown', ['$event'])
     onMousedown(event: MouseEvent) {
-        console.log('event mousedown', event);
-        document['targetUnit'] = event.target;
+        if (event.target.getAttribute('data-unit-new')) {
+            this.boardUnits.push(
+                {id: 'board-unit', type: event.target.getAttribute('data-unit-type'), x: 0, y: 0}
+            );
+        } else {
+            document['movingElement'] = event.target;
+        }
         document.addEventListener('mousemove', this.onMousemove, true);
+        event.preventDefault(); // https://stackoverflow.com/questions/9506041/javascript-events-mouseup-not-firing-after-mousemove
     }
 
     onMousemove(event: MouseEvent) {
-        console.log('event moving: ', event);
-        document['targetUnit'].style.top = event.screenY + 'px';
-        document['targetUnit'].style.left = event.screenX + 'px';
-        // event.target.style.top = event.screenY + 'px';
-        // event.target.style.left = event.screenX + 'px';
+        let movingElement = document.getElementById('board-unit') ? document.getElementById('board-unit') : document['movingElement'];
+        movingElement.style.top = event.screenY + 'px';
+        movingElement.style.left = event.screenX + 'px';
+        document['movingElement'] = movingElement;
     }
 }
