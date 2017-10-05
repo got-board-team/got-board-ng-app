@@ -68,6 +68,7 @@ export class ShowMatchComponent implements OnInit {
     @HostListener('mouseup', ['$event'])
     onMouseup(event: MouseEvent) {
         document.removeEventListener('mousemove', this.onMousemove, true);
+        if (document.getElementById('new-board-unit')) document.getElementById('new-board-unit').removeAttribute('id');
         if (!this.areaUnit[event.target['id']]) return;
         if (this.areaUnit[event.target['id']].units.map((unit) => unit.id).indexOf(parseInt(document['movingElement'].getAttribute('id'))) !== -1) return;
 
@@ -85,16 +86,18 @@ export class ShowMatchComponent implements OnInit {
 
     @HostListener('mousedown', ['$event'])
     onMousedown(event: MouseEvent) {
-        document['movingElementOffsetX'] = event.target.offsetLeft - event.clientX;
-        document['movingElementOffsetY'] = event.target.offsetTop - event.clientY;
+        document['movingElementOffsetX'] = event.target['offsetLeft'] - event.clientX;
+        document['movingElementOffsetY'] = event.target['offsetTop'] - event.clientY;
 
         if (event.target.getAttribute('data-unit-new')) {
             this.boardUnits.push(
-                {id: 'new-board-unit', type: event.target.getAttribute('data-unit-type'), x: 0, y: 0}
+                {id: 'new-board-unit', type: event.target.getAttribute('data-unit-type'), x: event.clientX, y: event.clientY}
             );
         } else {
+            // Unless new unit, get mousedown target
             document['movingElement'] = event.target;
         }
+
         document.addEventListener('mousemove', this.onMousemove, true);
         event.preventDefault(); // https://stackoverflow.com/questions/9506041/javascript-events-mouseup-not-firing-after-mousemove
     }
