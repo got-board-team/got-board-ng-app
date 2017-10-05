@@ -85,9 +85,12 @@ export class ShowMatchComponent implements OnInit {
 
     @HostListener('mousedown', ['$event'])
     onMousedown(event: MouseEvent) {
+        document['movingElementOffsetX'] = event.target.offsetLeft - event.clientX;
+        document['movingElementOffsetY'] = event.target.offsetTop - event.clientY;
+
         if (event.target.getAttribute('data-unit-new')) {
             this.boardUnits.push(
-                {id: 'board-unit', type: event.target.getAttribute('data-unit-type'), x: 0, y: 0}
+                {id: 'new-board-unit', type: event.target.getAttribute('data-unit-type'), x: 0, y: 0}
             );
         } else {
             document['movingElement'] = event.target;
@@ -97,9 +100,22 @@ export class ShowMatchComponent implements OnInit {
     }
 
     onMousemove(event: MouseEvent) {
-        let movingElement = document.getElementById('board-unit') ? document.getElementById('board-unit') : document['movingElement'];
-        movingElement.style.top = event.screenY + 'px';
-        movingElement.style.left = event.screenX + 'px';
+        event.preventDefault();
+        let movingElement = document.getElementById('new-board-unit') ? document.getElementById('new-board-unit') : document['movingElement'];
+        if (!event.target.offsetLeft || !event.target.offsetTop) return;
+
+        let mousePositionY = event.clientY;
+        let mousePositionX = event.clientX;
+
+        console.log("document['movingElementOffsetX']", document['movingElementOffsetX']);
+        console.log(event.target.offsetLeft - event.clientX);
+
+        let top = mousePositionY + document['movingElementOffsetY'];
+        let left = mousePositionX + document['movingElementOffsetX'];
+
+        movingElement.style.top = top + 'px';
+        movingElement.style.left = left + 'px';
+
         document['movingElement'] = movingElement;
     }
 }
