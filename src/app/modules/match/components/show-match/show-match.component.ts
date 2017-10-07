@@ -68,26 +68,33 @@ export class ShowMatchComponent implements OnInit {
     @HostListener('mouseup', ['$event'])
     onMouseup(event: MouseEvent) {
         document.removeEventListener('mousemove', this.onMousemove, true);
+
+        document['movingElement'].style.display = 'none';
+        let territory = document.elementFromPoint(event.clientX, event.clientY)
+        document['movingElement'].removeAttribute('style');
+
+        console.log('moved ' + document['movingElement'].getAttribute('data-unit-type') + ' to: ', territory.id);
+
         if (document.getElementById('new-board-unit')) document.getElementById('new-board-unit').removeAttribute('id');
-        if (!this.areaUnit[event.target['id']]) return;
-        if (this.areaUnit[event.target['id']].units.map((unit) => unit.id).indexOf(parseInt(document['movingElement'].getAttribute('id'))) !== -1) return;
+        if (!this.areaUnit[territory.id]) return;
+        if (this.areaUnit[territory.id].units.map((unit) => unit.id).indexOf(parseInt(document['movingElement'].getAttribute('id'))) !== -1) return;
 
         // TODO: Prevent from creating a new unit if moving to another area. Should change the unit area instead.
         // TODD: Move this temp logic to a service to be deleted in the future.
 
-        let id = this.areaUnit[event.target['id']].units.length + 1;
-        this.areaUnit[event.target['id']].units.push(
+        let id = this.areaUnit[territory.id].units.length + 1;
+        this.areaUnit[territory.id].units.push(
             {id: id, type: document['movingElement'].getAttribute('data-unit-type'), x: event.screenX, y: event.screenY}
         );
 
         this.boardUnits = []; // remove temp element
-        console.log('moved', this.areaUnit[event.target['id']].units);
+        console.log('moved', this.areaUnit);
     }
 
     @HostListener('mousedown', ['$event'])
     onMousedown(event: MouseEvent) {
-        document['movingElementOffsetX'] = event.target['offsetLeft'] - event.clientX;
-        document['movingElementOffsetY'] = event.target['offsetTop'] - event.clientY;
+        document['movingElementOffsetX'] = event.target.getAttribute('x') - event.clientX;
+        document['movingElementOffsetY'] = event.target.getAttribute('y') - event.clientY;
 
         if (event.target.getAttribute('data-unit-new')) {
             this.boardUnits.push(
@@ -109,9 +116,13 @@ export class ShowMatchComponent implements OnInit {
         let top = mousePositionY + document['movingElementOffsetY'];
         let left = mousePositionX + document['movingElementOffsetX'];
 
-        movingElement.style.top = top + 'px';
-        movingElement.style.left = left + 'px';
+        movingElement.setAttribute('y', top);
+        movingElement.setAttribute('x', left);
 
         document['movingElement'] = movingElement;
+    }
+
+    log(event:any) {
+        console.log(event.type, event);
     }
 }

@@ -15,15 +15,15 @@
             <div *ngFor="let unit of boardUnits" [id]="unit.id" class="unit {{unit.type}}" [attr.data-unit-type]="unit.type" [style.top]="unit.y + 'px'" [style.left]="unit.x + 'px'">{{unit.type}} unit</div>
         </ng-container>
 
-        <ng-container *ngFor="let area of areas">
-            <ng-container *ngIf="areaUnit[area.slug]">
-                <div *ngFor="let unit of areaUnit[area.slug].units" [id]="unit.id" class="unit {{unit.type}}" [attr.data-unit-type]="unit.type" [style.top]="unit.y + 'px'" [style.left]="unit.x + 'px'">{{unit.type}} unit in {{area.slug}}</div>
-            </ng-container>
-        </ng-container>
-
         <svg>
             <ng-container *ngFor="let area of areas">
                 <svg:path class="territory" [attr.d]="area.path" [id]="area.slug" />
+            </ng-container>
+
+            <ng-container *ngFor="let area of areas">
+                <ng-container *ngIf="areaUnit[area.slug]">
+                    <image *ngFor="let unit of areaUnit[area.slug].units" [id]="unit.id" [ngClass]="'unit ' + unit.type" [attr.data-unit-type]="unit.type" [attr.href]="'/assets/units/baratheon-' + unit.type + '.png'" [attr.x]="unit.x" [attr.y]="unit.y">{{unit.type}} unit in {{area.slug}}</image>
+                </ng-container>
             </ng-container>
         </svg>
     </div>
