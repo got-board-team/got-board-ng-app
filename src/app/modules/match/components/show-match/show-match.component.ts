@@ -84,7 +84,7 @@ export class ShowMatchComponent implements OnInit {
 
         let id = this.areaUnit[territory.id].units.length + 1;
         this.areaUnit[territory.id].units.push(
-            {id: id, type: document['movingElement'].getAttribute('data-unit-type'), x: event.screenX, y: event.screenY}
+            {id: id, type: document['movingElement'].getAttribute('data-unit-type'), x: (event.clientX + document['movingElementOffsetX']), y: (event.clientY + document['movingElementOffsetY'])}
         );
 
         this.boardUnits = []; // remove temp element
@@ -98,7 +98,7 @@ export class ShowMatchComponent implements OnInit {
 
         if (event.target.getAttribute('data-unit-new')) {
             this.boardUnits.push(
-                {id: 'new-board-unit', type: event.target.getAttribute('data-unit-type'), x: event.clientX, y: event.clientY}
+                {id: 'new-board-unit', type: event.target.getAttribute('data-unit-type'), x: document['movingElementOffsetX'], y: document['movingElementOffsetY']}
             );
         } else {
             // Unless new unit, get mousedown target

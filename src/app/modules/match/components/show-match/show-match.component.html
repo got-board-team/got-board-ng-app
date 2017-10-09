@@ -1,23 +1,26 @@
 <div *ngIf="match">
     <div style="display:flex;justify-content:space-between;">
         <div style="display:flex;">
-            <div *ngFor="let unit of units" class="unit {{unit}}" [attr.data-unit-type]="unit" [attr.data-unit-new]="true">{{unit}}</div>
+            <a routerLink="/matches">Matches</a>
         </div>
 
         <div>
-            <a routerLink="/matches">Matches</a><br />
             <h1>Match {{match.id}} created at: {{match.createdAt | date: 'medium'}}</h1>
         </div>
     </div>
 
     <div id="board">
-        <ng-container *ngIf="boardUnits.length > 0">
-            <div *ngFor="let unit of boardUnits" [id]="unit.id" class="unit {{unit.type}}" [attr.data-unit-type]="unit.type" [style.top]="unit.y + 'px'" [style.left]="unit.x + 'px'">{{unit.type}} unit</div>
-        </ng-container>
-
         <svg>
             <ng-container *ngFor="let area of areas">
                 <svg:path class="territory" [attr.d]="area.path" [id]="area.slug" />
+            </ng-container>
+
+            <ng-container *ngFor="let unit of units; let i = index">
+                <image [ngClass]="'unit ' + unit" [attr.data-unit-type]="unit" [attr.data-unit-new]="true" [attr.href]="'/assets/units/baratheon-' + unit + '.png'" [attr.x]="i * 75" y="0">{{unit}}</image>
+            </ng-container>
+
+            <ng-container *ngIf="boardUnits.length > 0">
+                <image *ngFor="let unit of boardUnits" [id]="unit.id" [ngClass]="'unit ' + unit.type" [attr.data-unit-type]="unit.type" [attr.href]="'/assets/units/baratheon-' + unit.type + '.png'" [attr.x]="unit.x" [attr.y]="unit.y">{{unit.type}} unit</image>
             </ng-container>
 
             <ng-container *ngFor="let area of areas">
