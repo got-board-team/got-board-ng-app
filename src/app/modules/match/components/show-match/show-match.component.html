@@ -1,7 +1,11 @@
 <div *ngIf="match">
     <div style="display:flex;justify-content:space-between;">
         <div style="display:flex;">
-            <a routerLink="/matches">Matches</a>
+            <div><a routerLink="/matches">Matches</a></div>
+
+            <div style="position:absolute; top: 250px; left: 50px; background: rgba(0,0,0,.5); padding: 1em;">
+                <div *ngFor="let unit of units" [ngClass]="'unit ' + unit" [attr.data-unit-type]="unit" [attr.data-unit-new]="true">{{unit}}</div>
+            </div>
         </div>
 
         <div>
@@ -13,10 +17,6 @@
         <svg>
             <ng-container *ngFor="let area of areas">
                 <svg:path class="territory" [attr.d]="area.path" [id]="area.slug" />
-            </ng-container>
-
-            <ng-container *ngFor="let unit of units; let i = index">
-                <image [ngClass]="'unit ' + unit" [attr.data-unit-type]="unit" [attr.data-unit-new]="true" [attr.href]="'/assets/units/baratheon-' + unit + '.png'" [attr.x]="i * 75" y="0">{{unit}}</image>
             </ng-container>
 
             <ng-container *ngIf="boardUnits.length > 0">

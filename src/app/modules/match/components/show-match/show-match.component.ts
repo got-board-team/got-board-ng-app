@@ -93,8 +93,10 @@ export class ShowMatchComponent implements OnInit {
 
     @HostListener('mousedown', ['$event'])
     onMousedown(event: MouseEvent) {
-        document['movingElementOffsetX'] = event.target.getAttribute('x') - event.clientX;
-        document['movingElementOffsetY'] = event.target.getAttribute('y') - event.clientY;
+        console.log('event.target.offsetLeft', event.target.offsetLeft);
+        console.log('event.clientX', event.clientX);
+        document['movingElementOffsetX'] = event.target.getAttribute('x') ? (event.target.getAttribute('x') - event.clientX) : (event.target.offsetLeft - event.clientX);
+        document['movingElementOffsetY'] = event.target.getAttribute('y') ? (event.target.getAttribute('y') - event.clientY) : (event.target.offsetHeight - event.clientY);
 
         if (event.target.getAttribute('data-unit-new')) {
             this.boardUnits.push(
