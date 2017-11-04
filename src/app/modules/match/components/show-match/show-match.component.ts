@@ -68,16 +68,17 @@ export class ShowMatchComponent implements OnInit {
   onMouseup(event: MouseEvent, unit: any) {
     document.removeEventListener('mousemove', this.onMousemove, true);
 
-    document['movingElement'].style.display = 'none';
-    let territory = document.elementFromPoint(event.clientX, event.clientY)
-    document['movingElement'].removeAttribute('style');
+    let territory = this.getParentElement(document['movingElement'], event);
 
-    console.log('moved ' + document['movingElement'].getAttribute('data-unit-type') + ' to: ', territory.id);
+    console.log('moved ' + unit.type + ' from: ' + unit.originTerritory + ' to: ', territory.id);
 
-    this.moveUnitToTerritory(territory);
+    this.moveUnitToTerritory(unit, territory);
   }
 
   onMousedown(e: MouseEvent, unit: any) {
+
+    // Important: unit can be string if unit is new from war room.
+
     document['movingElementOffsetX'] = e.target.getAttribute('x') ? (e.target.getAttribute('x') - e.clientX) : (e.target.offsetLeft + e.target.offsetParent.offsetLeft);
     document['movingElementOffsetY'] = e.target.getAttribute('y') ? (e.target.getAttribute('y') - e.clientY) : (e.target.offsetTop + e.target.offsetParent.offsetTop);
 
@@ -88,6 +89,8 @@ export class ShowMatchComponent implements OnInit {
     } else {
       // Unless new unit, get mousedown target
       document['movingElement'] = e.target;
+      let originTerritory = this.getParentElement(document['movingElement'], e);
+      unit.originTerritory = originTerritory.id;
     }
 
     document.addEventListener('mousemove', this.onMousemove, true);
@@ -112,13 +115,26 @@ export class ShowMatchComponent implements OnInit {
     document['movingElement'] = movingElement;
   }
 
-  moveUnitToTerritory(territory: any) {
+  getParentElement(movingElement: any, event: MouseEvent) {
+    movingElement.style.display = 'none';
+    let territory = document.elementFromPoint(event.clientX, event.clientY)
+    movingElement.removeAttribute('style');
+    return territory;
+  }
+
+  moveUnitToTerritory(unit: any, territory: any) {
     if (document.getElementById('new-board-unit')) document.getElementById('new-board-unit').removeAttribute('id');
+
+    // If territory doesn't exists
     if (!this.areaUnit[territory.id]) return;
+
+    // if unit is in territory
     if (this.areaUnit[territory.id].units.map((unit) => unit.id).indexOf(parseInt(document['movingElement'].getAttribute('id'))) !== -1) return;
 
     // TODO: Prevent from creating a new unit if moving to another area. Should change the unit area instead.
     // TODD: Move this temp logic to a service to be deleted in the future.
+
+    console.log(unit);
 
     let id = this.areaUnit[territory.id].units.length + 1;
     this.areaUnit[territory.id].units.push(
