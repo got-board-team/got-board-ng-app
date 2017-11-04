@@ -25,7 +25,7 @@
 
       <ng-container *ngFor="let area of areas">
         <ng-container *ngIf="areaUnit[area.slug]">
-          <image *ngFor="let unit of areaUnit[area.slug].units" [id]="unit.id" [ngClass]="'unit ' + unit.type" [attr.data-unit-type]="unit.type" [attr.href]="'/assets/units/baratheon-' + unit.type + '.png'" [attr.x]="unit.x" [attr.y]="unit.y" (mousedown)="onMousedown($event, unit)" (mouseup)="onMouseup($event, unit)">{{unit.type}} unit in {{area.slug}}</image>
+          <image *ngFor="let unit of areaUnit[area.slug].units" [id]="unit.id" [ngClass]="'unit ' + unit.type" [attr.data-unit-type]="unit.type" [attr.href]="'/assets/units/baratheon-' + unit.type + '.png'" [attr.x]="unit.x" [attr.y]="unit.y" boardDraggable>{{unit.type}} unit in {{area.slug}}</image>
         </ng-container>
       </ng-container>
     </svg>
