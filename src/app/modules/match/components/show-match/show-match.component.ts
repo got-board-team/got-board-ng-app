@@ -115,19 +115,16 @@ export class ShowMatchComponent implements OnInit {
   }
 
   onMousemove(event: MouseEvent) {
-    let movingElement, top, left;
-    let mousePositionY = event.clientY;
-    let mousePositionX = event.clientX;
+    let movingElement;
 
     if (document.getElementById('new-board-unit')) {
       movingElement = document.getElementById('new-board-unit');
-      top = event.movementY + parseInt(movingElement.getAttribute('y'));
-      left = event.movementX + parseInt(movingElement.getAttribute('x'));
     } else {
       movingElement = document['movingElement'];
-      top = mousePositionY + document['movingElementOffsetY'];
-      left = mousePositionX + document['movingElementOffsetX'];
     }
+
+    let top = event.movementY + parseInt(movingElement.getAttribute('y'));
+    let left = event.movementX + parseInt(movingElement.getAttribute('x'));
 
     movingElement.setAttribute('y', top);
     movingElement.setAttribute('x', left);
