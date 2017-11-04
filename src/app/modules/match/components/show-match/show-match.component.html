@@ -10,7 +10,7 @@
   </div>
 
   <div id="board">
-    <div id="warroom" style="display: flex; position:absolute; top: 0; left: 0; background: rgba(0,0,0,.5); padding: 1em;">
+    <div id="warroom" style="display: flex; position:absolute; top: 250px; left: 50px; background: rgba(0,0,0,.5); padding: 1em;">
       <div *ngFor="let unit of units" [ngClass]="'unit ' + unit" [attr.data-unit-type]="unit" [attr.data-unit-new]="true" (mousedown)="onMousedown($event, unit)" (mouseup)="onMouseup($event, unit)">{{unit}}</div>
     </div>
 
