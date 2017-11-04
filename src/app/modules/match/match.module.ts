@@ -13,8 +13,9 @@ import { ListMatchesComponent } from './components/list-matches/list-matches.com
 import { ShowMatchComponent } from './components/show-match/show-match.component';
 
 import { DraggableDirective } from './directives/draggable/draggable.directive';
+import { DroppableDirective } from './directives/droppable/droppable.directive';
 
-const COMPONENTS_AND_DIRECTIVES = [ListMatchesComponent, ShowMatchComponent, DraggableDirective];
+const COMPONENTS_AND_DIRECTIVES = [ListMatchesComponent, ShowMatchComponent, DraggableDirective, DroppableDirective];
 const SERVICES = [MatchService, Title];
 
 @NgModule({
