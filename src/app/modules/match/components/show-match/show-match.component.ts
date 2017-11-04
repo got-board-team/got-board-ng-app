@@ -65,7 +65,6 @@ export class ShowMatchComponent implements OnInit {
     });
   }
 
-  @HostListener('mouseup', ['$event'])
   onMouseup(event: MouseEvent, unit: any) {
     document.removeEventListener('mousemove', this.onMousemove, true);
 
@@ -95,9 +94,8 @@ export class ShowMatchComponent implements OnInit {
     console.log('moved', this.areaUnit);
   }
 
-  @HostListener('mousedown', ['$event'])
   onMousedown(e: MouseEvent, unit: any) {
-    document['movingElementOffsetX'] = e.target.getAttribute('x') ? (e.target.getAttribute('x') - e.clientX) : (e.target.offsetLeft + e.target.offsetParent.offsetLeft;
+    document['movingElementOffsetX'] = e.target.getAttribute('x') ? (e.target.getAttribute('x') - e.clientX) : (e.target.offsetLeft + e.target.offsetParent.offsetLeft);
     document['movingElementOffsetY'] = e.target.getAttribute('y') ? (e.target.getAttribute('y') - e.clientY) : (e.target.offsetTop + e.target.offsetParent.offsetTop);
 
     if (e.target.getAttribute('data-unit-new')) {
