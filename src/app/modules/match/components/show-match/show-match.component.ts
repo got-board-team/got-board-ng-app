@@ -66,12 +66,16 @@ export class ShowMatchComponent implements OnInit {
   }
 
   @HostListener('mouseup', ['$event'])
-  onMouseup(event: MouseEvent) {
+  onMouseup(event: MouseEvent, unit: any) {
     document.removeEventListener('mousemove', this.onMousemove, true);
+
+    console.log('Mouse Up unit:', unit);
 
     document['movingElement'].style.display = 'none';
     let territory = document.elementFromPoint(event.clientX, event.clientY)
     document['movingElement'].removeAttribute('style');
+
+    //console.log('territory:', territory);
 
     console.log('moved ' + document['movingElement'].getAttribute('data-unit-type') + ' to: ', territory.id);
 
@@ -92,34 +96,44 @@ export class ShowMatchComponent implements OnInit {
   }
 
   @HostListener('mousedown', ['$event'])
-  onMousedown(event: MouseEvent) {
-    console.log('event.target.offsetLeft', event.target.offsetLeft);
-    console.log('event.clientX', event.clientX);
-    document['movingElementOffsetX'] = event.target.getAttribute('x') ? (event.target.getAttribute('x') - event.clientX) : (event.target.offsetLeft - event.clientX);
-    document['movingElementOffsetY'] = event.target.getAttribute('y') ? (event.target.getAttribute('y') - event.clientY) : (event.target.offsetHeight - event.clientY);
+  onMousedown(e: MouseEvent, unit: any) {
+    document['movingElementOffsetX'] = e.target.getAttribute('x') ? (e.target.getAttribute('x') - e.clientX) : e.target.offsetLeft;
+    document['movingElementOffsetY'] = e.target.getAttribute('y') ? (e.target.getAttribute('y') - e.clientY) : e.target.offsetTop;
 
-    if (event.target.getAttribute('data-unit-new')) {
+    if (e.target.getAttribute('data-unit-new')) {
+      console.log('Creating a new unit');
       this.boardUnits.push(
-        {id: 'new-board-unit', type: event.target.getAttribute('data-unit-type'), x: document['movingElementOffsetX'], y: document['movingElementOffsetY']}
+        {id: 'new-board-unit', type: e.target.getAttribute('data-unit-type'), x: document['movingElementOffsetX'], y: document['movingElementOffsetY']}
       );
     } else {
       // Unless new unit, get mousedown target
-      document['movingElement'] = event.target;
+      document['movingElement'] = e.target;
     }
 
     document.addEventListener('mousemove', this.onMousemove, true);
-    event.preventDefault(); // https://stackoverflow.com/questions/9506041/javascript-events-mouseup-not-firing-after-mousemove
+    e.preventDefault(); // https://stackoverflow.com/questions/9506041/javascript-events-mouseup-not-firing-after-mousemove
   }
 
   onMousemove(event: MouseEvent) {
-    let movingElement = document.getElementById('new-board-unit') ? document.getElementById('new-board-unit') : document['movingElement'];
+    let movingElement, top, left;
     let mousePositionY = event.clientY;
     let mousePositionX = event.clientX;
-    let top = mousePositionY + document['movingElementOffsetY'];
-    let left = mousePositionX + document['movingElementOffsetX'];
+
+    console.log('event.type', event.type);
+
+    if (document.getElementById('new-board-unit')) {
+      movingElement = document.getElementById('new-board-unit');
+      top = mousePositionY + document['movingElementOffsetY'];
+      left = mousePositionX + document['movingElementOffsetX'];
+    } else {
+      movingElement = document['movingElement'];
+      top = mousePositionY + document['movingElementOffsetY'];
+      left = mousePositionX + document['movingElementOffsetX'];
+    }
 
     movingElement.setAttribute('y', top);
     movingElement.setAttribute('x', left);
+    console.log(movingElement);
 
     document['movingElement'] = movingElement;
   }

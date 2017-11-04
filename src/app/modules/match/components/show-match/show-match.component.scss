@@ -13,17 +13,19 @@ button {
 }
 
 #board {
-    svg {
-        /* Striping out tracks original size 1980px */
-        width: 1500px;
-        height: 2975px;
-        /* margin-top: 4.5em; */
-        background-image: url("/assets/board.jpg");
-    }
+  position: relative;
+
+  svg {
+    /* Striping out tracks original size 1980px */
+    width: 1500px;
+    height: 2975px;
+    /* margin-top: 4.5em; */
+    background-image: url("/assets/board.jpg");
 
     .unit {
-        position: absolute;
+      position: absolute;
     }
+  }
 }
 
 .piece {
