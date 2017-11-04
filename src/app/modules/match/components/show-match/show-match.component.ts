@@ -119,12 +119,10 @@ export class ShowMatchComponent implements OnInit {
     let mousePositionY = event.clientY;
     let mousePositionX = event.clientX;
 
-    console.log('event.type', event.type);
-
     if (document.getElementById('new-board-unit')) {
       movingElement = document.getElementById('new-board-unit');
-      top = mousePositionY + document['movingElementOffsetY'];
-      left = mousePositionX + document['movingElementOffsetX'];
+      top = event.movementY + parseInt(movingElement.getAttribute('y'));
+      left = event.movementX + parseInt(movingElement.getAttribute('x'));
     } else {
       movingElement = document['movingElement'];
       top = mousePositionY + document['movingElementOffsetY'];
@@ -133,7 +131,6 @@ export class ShowMatchComponent implements OnInit {
 
     movingElement.setAttribute('y', top);
     movingElement.setAttribute('x', left);
-    console.log(movingElement);
 
     document['movingElement'] = movingElement;
   }
