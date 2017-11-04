@@ -68,30 +68,13 @@ export class ShowMatchComponent implements OnInit {
   onMouseup(event: MouseEvent, unit: any) {
     document.removeEventListener('mousemove', this.onMousemove, true);
 
-    console.log('Mouse Up unit:', unit);
-
     document['movingElement'].style.display = 'none';
     let territory = document.elementFromPoint(event.clientX, event.clientY)
     document['movingElement'].removeAttribute('style');
 
-    //console.log('territory:', territory);
-
     console.log('moved ' + document['movingElement'].getAttribute('data-unit-type') + ' to: ', territory.id);
 
-    if (document.getElementById('new-board-unit')) document.getElementById('new-board-unit').removeAttribute('id');
-    if (!this.areaUnit[territory.id]) return;
-    if (this.areaUnit[territory.id].units.map((unit) => unit.id).indexOf(parseInt(document['movingElement'].getAttribute('id'))) !== -1) return;
-
-    // TODO: Prevent from creating a new unit if moving to another area. Should change the unit area instead.
-    // TODD: Move this temp logic to a service to be deleted in the future.
-
-    let id = this.areaUnit[territory.id].units.length + 1;
-    this.areaUnit[territory.id].units.push(
-      {id: id, type: document['movingElement'].getAttribute('data-unit-type'), x: (event.clientX + document['movingElementOffsetX']), y: (event.clientY + document['movingElementOffsetY'])}
-    );
-
-    this.boardUnits = []; // remove temp element
-    console.log('moved', this.areaUnit);
+    this.moveUnitToTerritory(territory);
   }
 
   onMousedown(e: MouseEvent, unit: any) {
@@ -99,7 +82,6 @@ export class ShowMatchComponent implements OnInit {
     document['movingElementOffsetY'] = e.target.getAttribute('y') ? (e.target.getAttribute('y') - e.clientY) : (e.target.offsetTop + e.target.offsetParent.offsetTop);
 
     if (e.target.getAttribute('data-unit-new')) {
-      console.log('Creating a new unit');
       this.boardUnits.push(
         {id: 'new-board-unit', type: e.target.getAttribute('data-unit-type'), x: document['movingElementOffsetX'], y: document['movingElementOffsetY']}
       );
@@ -128,6 +110,22 @@ export class ShowMatchComponent implements OnInit {
     movingElement.setAttribute('x', left);
 
     document['movingElement'] = movingElement;
+  }
+
+  moveUnitToTerritory(territory: any) {
+    if (document.getElementById('new-board-unit')) document.getElementById('new-board-unit').removeAttribute('id');
+    if (!this.areaUnit[territory.id]) return;
+    if (this.areaUnit[territory.id].units.map((unit) => unit.id).indexOf(parseInt(document['movingElement'].getAttribute('id'))) !== -1) return;
+
+    // TODO: Prevent from creating a new unit if moving to another area. Should change the unit area instead.
+    // TODD: Move this temp logic to a service to be deleted in the future.
+
+    let id = this.areaUnit[territory.id].units.length + 1;
+    this.areaUnit[territory.id].units.push(
+      {id: id, type: document['movingElement'].getAttribute('data-unit-type'), x: (event.clientX + document['movingElementOffsetX']), y: (event.clientY + document['movingElementOffsetY'])}
+    );
+
+    this.boardUnits = []; // remove temp element
   }
 
   log(event:any) {
