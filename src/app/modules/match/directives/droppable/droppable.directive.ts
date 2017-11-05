@@ -21,6 +21,7 @@ export class DroppableDirective {
   @HostListener('mouseup', ['$event'])
   onMouseup(event: MouseEvent) {
     let territory = this.getDroppedTerritory(event);
+    if (this.unit.id === 'new-board-unit') this.unit.id = 0;
     console.log('moved ' + this.unit.type + ' from: ' + this.unit.originTerritory + ' to: ', territory.id);
   }
 
