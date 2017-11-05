@@ -47,7 +47,10 @@ export class ShowMatchComponent implements OnInit {
 
   match: Match;
   areas = MAP_AREAS;
-  units = ['footman', 'knight', 'siege-engine', 'boat'];
+  warRoomUnits = [ {id: 'new-board-unit', type: 'footman', x: 0, y: 0},
+                   {id: 'new-board-unit', type: 'knight', x: 0, y: 0},
+                   {id: 'new-board-unit', type: 'siege-engine', x: 0, y: 0},
+                   {id: 'new-board-unit', type: 'boat', x: 0, y: 0} ]
   boardUnits = [];
   areaUnit = { castle_black: {id: 13, units: [{id: 1, type: 'footman', x: 685, y: 347}]},
                karhold: {id: 14, units: []},
@@ -73,6 +76,13 @@ export class ShowMatchComponent implements OnInit {
     console.log('moved ' + unit.type + ' from: ' + unit.originTerritory + ' to: ', territory.id);
 
     this.moveUnitToTerritory(unit, territory);
+  }
+
+  createNewUnit(newUnit: any) {
+    console.log('creating new unit on board', newUnit);
+    this.boardUnits.push(
+      {id: 'new-board-unit', type: newUnit.type, x: newUnit.x, y: newUnit.y}
+    );
   }
 
   onMousedown(e: MouseEvent, unit: any) {

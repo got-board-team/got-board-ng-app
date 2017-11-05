@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, Output, EventEmitter } from '@angular/core';
 
 @Directive({
   selector: '[boardDraggable]'
@@ -9,6 +9,8 @@ export class DraggableDirective {
   el: ElementRef;
   enableMove: boolean;
 
+  @Output() onMousedownEvent:EventEmitter<any> = new EventEmitter<any>();
+
   constructor(el: ElementRef) {
     this.el = el;
   }
@@ -16,17 +18,30 @@ export class DraggableDirective {
   @HostListener('document:mousemove', ['$event'])
   onMousemove(event: MouseEvent) {
     if (this.enableMove) {
-      let top = event.movementY + parseInt(this.el.nativeElement.getAttribute('y'));
-      let left = event.movementX + parseInt(this.el.nativeElement.getAttribute('x'));
-      console.log({x: left, y: top});
-      this.el.nativeElement.setAttribute('y', top);
-      this.el.nativeElement.setAttribute('x', left);
+      let movingUnit;
+
+      if (this.el.nativeElement.tagName === 'DIV') {
+        movingUnit = document.getElementById('new-board-unit');
+      } else {
+        movingUnit = this.el.nativeElement;
+      }
+
+      let top = event.movementY + parseInt(movingUnit.getAttribute('y'));
+      let left = event.movementX + parseInt(movingUnit.getAttribute('x'));
+
+      movingUnit.setAttribute('y', top);
+      movingUnit.setAttribute('x', left);
+
+      console.log('moving: ', movingUnit);
     }
   }
 
   @HostListener('mousedown', ['$event'])
   onMousedown(event: MouseEvent) {
     this.enableMove = true;
+    this.unit.x = (event.target.offsetLeft + event.target.offsetParent.offsetLeft);
+    this.unit.y = (event.target.offsetTop + event.target.offsetParent.offsetTop);
+    this.onMousedownEvent.emit(this.unit);
     event.preventDefault(); // https://stackoverflow.com/questions/9506041/javascript-events-mouseup-not-firing-after-mousemove
   }
 

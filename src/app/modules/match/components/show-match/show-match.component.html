@@ -11,7 +11,7 @@
 
   <div id="board">
     <div id="warroom" style="display: flex; position:absolute; top: 250px; left: 50px; background: rgba(0,0,0,.5); padding: 1em;">
-      <div *ngFor="let unit of units" [ngClass]="'unit ' + unit" [attr.data-unit-type]="unit" [attr.data-unit-new]="true" (mousedown)="onMousedown($event, unit)" (mouseup)="onMouseup($event, unit)">{{unit}}</div>
+      <div *ngFor="let unit of warRoomUnits" [ngClass]="'unit ' + unit.type" boardDraggable boardDroppable [unit]="unit" (onMousedownEvent)="createNewUnit($event)" >{{unit}}</div>
     </div>
 
     <svg>
@@ -25,7 +25,7 @@
 
       <ng-container *ngFor="let area of areas">
         <ng-container *ngIf="areaUnit[area.slug]">
-          <image *ngFor="let unit of areaUnit[area.slug].units" [id]="unit.id" [ngClass]="'unit ' + unit.type" [attr.data-unit-type]="unit.type" [attr.href]="'/assets/units/baratheon-' + unit.type + '.png'" [attr.x]="unit.x" [attr.y]="unit.y" boardDraggable boardDroppable [unit]="unit" >{{unit.type}} unit in {{area.slug}}</image>
+          <image *ngFor="let unit of areaUnit[area.slug].units" [id]="unit.id" [ngClass]="'unit ' + unit.type" [attr.data-unit-type]="unit.type" [attr.href]="'/assets/units/baratheon-' + unit.type + '.png'" [attr.x]="unit.x" [attr.y]="unit.y" boardDraggable boardDroppable [unit]="unit" (onMousedownEvent)="log($event)" >{{unit.type}} unit in {{area.slug}}</image>
         </ng-container>
       </ng-container>
     </svg>
