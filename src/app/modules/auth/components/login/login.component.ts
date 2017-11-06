@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
     constructor(public auth: AuthService, private titleService: Title) { }
 
     ngOnInit() {
-        this.titleService.setTitle('DashBid Apps | Login');
+        this.titleService.setTitle('GOT Online Board | Login');
 
         if (this.authenticated()) {
             if (this.auth.user) {
