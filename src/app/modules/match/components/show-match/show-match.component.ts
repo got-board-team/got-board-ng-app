@@ -51,10 +51,7 @@ export class ShowMatchComponent implements OnInit {
                    {id: 'new-board-unit', type: 'knight', x: 0, y: 0},
                    {id: 'new-board-unit', type: 'siege-engine', x: 0, y: 0},
                    {id: 'new-board-unit', type: 'boat', x: 0, y: 0} ]
-  boardUnits = [];
-  areaUnit = { castle_black: {id: 13, units: [{id: 1, type: 'footman', x: 685, y: 347}]},
-               karhold: {id: 14, units: []},
-               winterfell: {id: 15, units: []} };
+  boardUnits = [{id: 1, type: 'footman', x: 685, y: 347, territoryId: 13}];
 
   constructor(private activatedRoute: ActivatedRoute, private matchService: MatchService, public router: Router) { }
 
@@ -76,31 +73,38 @@ export class ShowMatchComponent implements OnInit {
     this.moveUnitToTerritory(drop.unit, drop.territoryId);
   }
 
+  elementId(unit: any) {
+    if (unit.id === -1) return  'new-board-unit';
+    return unit.id + '-' + unit.type + '-in-' + unit.territoryId;
+  }
+
   private createNewUnit(newUnit: any) {
     this.boardUnits.push(
-      {id: 'new-board-unit', type: newUnit.type, x: newUnit.x, y: newUnit.y}
+      {id: -1, type: newUnit.type, x: newUnit.x, y: newUnit.y, territoryId: 0}
     );
   }
 
   private moveUnitToTerritory(unit: any, territoryId: string) {
-    console.log('moved ' + unit.type + ' from: ' + unit.originTerritory + ' to: ', territoryId);
+    let territoryId = parseInt(territoryId);
+    console.log({unit: unit, territoryId: territoryId});
+    if (unit.id === -1) unit.id = 0;
 
     // If territory doesn't exists
-    if (!this.areaUnit[territoryId]) return;
+    if ((territoryId !== 0) && (this.areas.filter(area => (area.id === territoryId)).length === 0)) {
+      console.log("territory doesn't exists");
+      return;
+    }
 
     // if unit is in territory
-    if (this.areaUnit[territoryId].units.map((unit) => unit.id).indexOf(unit.id) !== -1) return;
+    if (unit.territoryId === territoryId) {
+      console.log('unit is in territory');
+      return;
+    }
 
     // TODO: Prevent from creating a new unit if moving to another area. Should change the unit area instead.
     // TODD: Move this temp logic to a service to be deleted in the future.
-    return;
-
-    let id = this.areaUnit[territoryId].units.length + 1;
-    this.areaUnit[territoryId].units.push(
-      {id: id, type: unit.type, x: unit.x, y: unit.y}
-    );
-
-    this.boardUnits = []; // remove temp element
+    console.log('Updated territory from:' + unit.territoryId + ' to: ' + territoryId);
+    unit.territoryId = territoryId;
   }
 
   private getParentElement(movingElement: any, event: MouseEvent) {

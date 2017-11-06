@@ -14,22 +14,10 @@ export class DroppableDirective {
     this.el = el;
   }
 
-  @HostListener('mousedown', ['$event'])
-  onMousedown(event: MouseEvent) {
-    this.setOriginTerritory(event);
-    event.preventDefault(); // https://stackoverflow.com/questions/9506041/javascript-events-mouseup-not-firing-after-mousemove
-  }
-
   @HostListener('mouseup', ['$event'])
   onMouseup(event: MouseEvent) {
     let territory = this.getDroppedTerritory(event);
-    if (this.unit.id === 'new-board-unit') this.unit.id = 0;
     this.onDrop.emit({unit: this.unit, territoryId: territory.id});
-  }
-
-  setOriginTerritory(event: MouseEvent) {
-    let territory = this.getDroppedTerritory(event);
-    this.unit.originTerritory = territory.id;
   }
 
   getDroppedTerritory(event: MouseEvent) {
