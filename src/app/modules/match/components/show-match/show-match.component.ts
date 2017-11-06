@@ -68,47 +68,45 @@ export class ShowMatchComponent implements OnInit {
     });
   }
 
-  createNewUnit(newUnit: any) {
-    console.log('creating new unit on board', newUnit);
+  dragStart(unit: any) {
+    this.createNewUnit(unit);
+  }
+
+  dropTerritory(drop: any) {
+    this.moveUnitToTerritory(drop.unit, drop.territoryId);
+  }
+
+  private createNewUnit(newUnit: any) {
     this.boardUnits.push(
       {id: 'new-board-unit', type: newUnit.type, x: newUnit.x, y: newUnit.y}
     );
   }
 
-  getParentElement(movingElement: any, event: MouseEvent) {
-    movingElement.style.display = 'none';
-    let territory = document.elementFromPoint(event.clientX, event.clientY)
-    movingElement.removeAttribute('style');
-    return territory;
-  }
-
-  dropTerritory(drop: any) {
-    console.log('moved ' + drop.unit.type + ' from: ' + drop.unit.originTerritory + ' to: ', drop.territoryId);
-  }
-
-  moveUnitToTerritory(unit: any, territory: any) {
-    if (document.getElementById('new-board-unit')) document.getElementById('new-board-unit').removeAttribute('id');
+  private moveUnitToTerritory(unit: any, territoryId: string) {
+    console.log('moved ' + unit.type + ' from: ' + unit.originTerritory + ' to: ', territoryId);
 
     // If territory doesn't exists
-    if (!this.areaUnit[territory.id]) return;
+    if (!this.areaUnit[territoryId]) return;
 
     // if unit is in territory
-    if (this.areaUnit[territory.id].units.map((unit) => unit.id).indexOf(parseInt(document['movingElement'].getAttribute('id'))) !== -1) return;
+    if (this.areaUnit[territoryId].units.map((unit) => unit.id).indexOf(unit.id) !== -1) return;
 
     // TODO: Prevent from creating a new unit if moving to another area. Should change the unit area instead.
     // TODD: Move this temp logic to a service to be deleted in the future.
+    return;
 
-    console.log(unit);
-
-    let id = this.areaUnit[territory.id].units.length + 1;
-    this.areaUnit[territory.id].units.push(
-      {id: id, type: document['movingElement'].getAttribute('data-unit-type'), x: (event.clientX + document['movingElementOffsetX']), y: (event.clientY + document['movingElementOffsetY'])}
+    let id = this.areaUnit[territoryId].units.length + 1;
+    this.areaUnit[territoryId].units.push(
+      {id: id, type: unit.type, x: unit.x, y: unit.y}
     );
 
     this.boardUnits = []; // remove temp element
   }
 
-  log(event:any) {
-    console.log(event.type, event);
+  private getParentElement(movingElement: any, event: MouseEvent) {
+    movingElement.style.display = 'none';
+    let territory = document.elementFromPoint(event.clientX, event.clientY)
+    movingElement.removeAttribute('style');
+    return territory;
   }
 }

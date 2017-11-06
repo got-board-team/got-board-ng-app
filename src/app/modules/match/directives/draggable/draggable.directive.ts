@@ -9,7 +9,7 @@ export class DraggableDirective {
   el: ElementRef;
   enableMove: boolean;
 
-  @Output() onMousedownEvent:EventEmitter<any> = new EventEmitter<any>();
+  @Output() onDragStart:EventEmitter<any> = new EventEmitter<any>();
 
   constructor(el: ElementRef) {
     this.el = el;
@@ -54,7 +54,7 @@ export class DraggableDirective {
       this.unit.y = (event.target.offsetTop + event.target.offsetParent.offsetTop);
     }
 
-    this.onMousedownEvent.emit(this.unit);
+    this.onDragStart.emit(this.unit);
     event.preventDefault(); // https://stackoverflow.com/questions/9506041/javascript-events-mouseup-not-firing-after-mousemove
   }
 
