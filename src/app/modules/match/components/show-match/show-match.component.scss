@@ -21,9 +21,18 @@ button {
     height: 2975px;
     /* margin-top: 4.5em; */
     background-image: url("/assets/board.jpg");
+  }
+
+  .unit {
+    position: absolute;
+    z-index: 2;
+  }
+
+  #warroom {
+    z-index: 1;
 
     .unit {
-      position: absolute;
+      position: static;
     }
   }
 }

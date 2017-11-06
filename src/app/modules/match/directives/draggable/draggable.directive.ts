@@ -18,30 +18,42 @@ export class DraggableDirective {
   @HostListener('document:mousemove', ['$event'])
   onMousemove(event: MouseEvent) {
     if (this.enableMove) {
-      let movingUnit;
+      // Updating unit object based latest position
+      if (this.el.nativeElement.dataset.unitX && this.el.nativeElement.dataset.unitY) {
+        this.unit.x = parseInt(this.el.nativeElement.dataset.unitX);
+        this.unit.y = parseInt(this.el.nativeElement.dataset.unitY);
 
-      if (this.el.nativeElement.tagName === 'DIV') {
-        movingUnit = document.getElementById('new-board-unit');
-      } else {
-        movingUnit = this.el.nativeElement;
+        // Clear data attributes. Not needed anymore.
+        this.el.nativeElement.dataset.unitX = '';
+        this.el.nativeElement.dataset.unitY = '';
       }
 
-      let top = event.movementY + parseInt(movingUnit.getAttribute('y'));
-      let left = event.movementX + parseInt(movingUnit.getAttribute('x'));
+      this.unit.y += event.movementY;
+      this.unit.x += event.movementX;
 
-      movingUnit.setAttribute('y', top);
-      movingUnit.setAttribute('x', left);
+      if (this.el.nativeElement.parentElement.id === 'warroom') {
+        // this.el.nativeElement is the unit in the warroom
+        // this.unit is the unit of warRoomUnits
+        let movingUnit = document.getElementById('new-board-unit');
+        movingUnit.style.left = this.unit.x + 'px';
+        movingUnit.style.top = this.unit.y + 'px';
+
+        // Saving current position in a temp data attribute
+        movingUnit.dataset.unitX = this.unit.x;
+        movingUnit.dataset.unitY = this.unit.y;
+      }
     }
   }
 
   @HostListener('mousedown', ['$event'])
   onMousedown(event: MouseEvent) {
     this.enableMove = true;
-    if (this.el.nativeElement.tagName === 'DIV') {
+
+    if (this.el.nativeElement.parentElement.id === 'warroom') {
       this.unit.x = (event.target.offsetLeft + event.target.offsetParent.offsetLeft);
       this.unit.y = (event.target.offsetTop + event.target.offsetParent.offsetTop);
-      this.el.nativeElement.style.display = 'none';
     }
+
     this.onMousedownEvent.emit(this.unit);
     event.preventDefault(); // https://stackoverflow.com/questions/9506041/javascript-events-mouseup-not-firing-after-mousemove
   }

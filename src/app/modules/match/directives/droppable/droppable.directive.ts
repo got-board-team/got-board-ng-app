@@ -33,7 +33,7 @@ export class DroppableDirective {
   getDroppedTerritory(event: MouseEvent) {
     this.el.nativeElement.style.display = 'none';
     let territory = document.elementFromPoint(event.clientX, event.clientY);
-    this.el.nativeElement.removeAttribute('style');
+    this.el.nativeElement.style.display = '';
     return territory;
   }
 
