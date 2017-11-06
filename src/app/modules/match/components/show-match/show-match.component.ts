@@ -84,10 +84,22 @@ export class ShowMatchComponent implements OnInit {
     );
   }
 
+  private removeUnit(unit: any) {
+    this.boardUnits.forEach((u, index) => {
+      if (u.id === unit.id) this.boardUnits.splice(index, 1);
+    });
+  }
+
   private moveUnitToTerritory(unit: any, territoryId: string) {
     let newTerritoryId = parseInt(territoryId);
-    console.log({unit: unit, territoryId: newTerritoryId});
+    console.log({unit: unit, territoryId: territoryId});
     if (unit.id === -1) unit.id = 0;
+
+    if (territoryId === 'warroom') {
+      this.removeUnit(unit);
+      console.log(this.boardUnits);
+      return;
+    }
 
     // If territory doesn't exists
     if ((newTerritoryId !== 0) && (this.areas.filter(area => (area.id === newTerritoryId)).length === 0)) {
