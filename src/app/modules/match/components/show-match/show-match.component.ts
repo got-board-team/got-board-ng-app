@@ -85,24 +85,24 @@ export class ShowMatchComponent implements OnInit {
   }
 
   private moveUnitToTerritory(unit: any, territoryId: string) {
-    let territoryId = parseInt(territoryId);
-    console.log({unit: unit, territoryId: territoryId});
+    let newTerritoryId = parseInt(territoryId);
+    console.log({unit: unit, territoryId: newTerritoryId});
     if (unit.id === -1) unit.id = 0;
 
     // If territory doesn't exists
-    if ((territoryId !== 0) && (this.areas.filter(area => (area.id === territoryId)).length === 0)) {
+    if ((newTerritoryId !== 0) && (this.areas.filter(area => (area.id === newTerritoryId)).length === 0)) {
       console.log("territory doesn't exists");
       return;
     }
 
     // if unit is in territory
-    if (unit.territoryId === territoryId) {
+    if (unit.territoryId === newTerritoryId) {
       console.log('unit is in territory');
       return;
     }
 
-    console.log('Updated territory from:' + unit.territoryId + ' to: ' + territoryId);
-    unit.territoryId = territoryId;
+    console.log('Updated territory from:' + unit.territoryId + ' to: ' + newTerritoryId);
+    unit.territoryId = newTerritoryId;
   }
 
   private getParentElement(movingElement: any, event: MouseEvent) {
