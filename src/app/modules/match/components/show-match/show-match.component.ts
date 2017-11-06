@@ -101,8 +101,6 @@ export class ShowMatchComponent implements OnInit {
       return;
     }
 
-    // TODO: Prevent from creating a new unit if moving to another area. Should change the unit area instead.
-    // TODD: Move this temp logic to a service to be deleted in the future.
     console.log('Updated territory from:' + unit.territoryId + ' to: ' + territoryId);
     unit.territoryId = territoryId;
   }
