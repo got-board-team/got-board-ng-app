@@ -50,8 +50,8 @@ export class DraggableDirective {
     this.enableMove = true;
 
     if (this.el.nativeElement.parentElement.id === 'warroom') {
-      this.unit.x = (event.target.offsetLeft + event.target.offsetParent.offsetLeft);
-      this.unit.y = (event.target.offsetTop + event.target.offsetParent.offsetTop);
+      this.unit.x = (event.target["offsetLeft"] + event.target["offsetParent"]["offsetLeft"]);
+      this.unit.y = (event.target["offsetTop"] + event.target["offsetParent"]["offsetTop"]);
     }
 
     this.onDragStart.emit(this.unit);
