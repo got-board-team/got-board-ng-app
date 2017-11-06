@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, Output, EventEmitter } from '@angular/core';
 
 @Directive({
   selector: '[boardDroppable]'
@@ -7,6 +7,8 @@ export class DroppableDirective {
 
   @Input() unit: any;
   el: ElementRef;
+
+  @Output() dropTerritoryEvent:EventEmitter<any> = new EventEmitter<any>();
 
   constructor(el: ElementRef) {
     this.el = el;
@@ -22,7 +24,7 @@ export class DroppableDirective {
   onMouseup(event: MouseEvent) {
     let territory = this.getDroppedTerritory(event);
     if (this.unit.id === 'new-board-unit') this.unit.id = 0;
-    console.log('moved ' + this.unit.type + ' from: ' + this.unit.originTerritory + ' to: ', territory.id);
+    this.dropTerritoryEvent.emit({unit: this.unit, territoryId: territory.id});
   }
 
   setOriginTerritory(event: MouseEvent) {

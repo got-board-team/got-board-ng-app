@@ -82,6 +82,10 @@ export class ShowMatchComponent implements OnInit {
     return territory;
   }
 
+  dropTerritory(drop: any) {
+    console.log('moved ' + drop.unit.type + ' from: ' + drop.unit.originTerritory + ' to: ', drop.territoryId);
+  }
+
   moveUnitToTerritory(unit: any, territory: any) {
     if (document.getElementById('new-board-unit')) document.getElementById('new-board-unit').removeAttribute('id');
 
