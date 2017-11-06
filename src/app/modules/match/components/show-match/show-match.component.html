@@ -17,12 +17,12 @@
     </svg>
 
     <ng-container *ngIf="boardUnits.length > 0">
-      <div *ngFor="let unit of boardUnits" [id]="unit.id" [ngClass]="'unit ' + unit.type" [attr.data-unit-type]="unit.type" [style.left]="unit.x + 'px'" [style.top]="unit.y + 'px'" boardDraggable boardDroppable [unit]="unit" (onDrop)="dropTerritory($event)" >{{unit.type}} unit</div>
+      <div *ngFor="let unit of boardUnits" [id]="unit.id" [ngClass]="'unit ' + unit.type" [style.left]="unit.x + 'px'" [style.top]="unit.y + 'px'" boardDraggable boardDroppable [unit]="unit" (onDrop)="dropTerritory($event)" >{{unit.type}} unit</div>
     </ng-container>
 
     <ng-container *ngFor="let area of areas">
       <ng-container *ngIf="areaUnit[area.slug]">
-        <div *ngFor="let unit of areaUnit[area.slug].units" [id]="unit.id" [ngClass]="'unit ' + unit.type" [attr.data-unit-type]="unit.type" [style.left]="unit.x + 'px'" [style.top]="unit.y + 'px'" boardDraggable boardDroppable [unit]="unit" (onDrop)="dropTerritory($event)" >{{unit.type}} unit in {{area.slug}}</div>
+        <div *ngFor="let unit of areaUnit[area.slug].units" [id]="unit.id" [ngClass]="'unit ' + unit.type" [style.left]="unit.x + 'px'" [style.top]="unit.y + 'px'" boardDraggable boardDroppable [unit]="unit" (onDrop)="dropTerritory($event)" >{{unit.type}} unit in {{area.slug}}</div>
       </ng-container>
     </ng-container>
 
