@@ -68,61 +68,11 @@ export class ShowMatchComponent implements OnInit {
     });
   }
 
-  onMouseup(event: MouseEvent, unit: any) {
-    document.removeEventListener('mousemove', this.onMousemove, true);
-
-    let territory = this.getParentElement(document['movingElement'], event);
-
-    console.log('moved ' + unit.type + ' from: ' + unit.originTerritory + ' to: ', territory.id);
-
-    this.moveUnitToTerritory(unit, territory);
-  }
-
   createNewUnit(newUnit: any) {
     console.log('creating new unit on board', newUnit);
     this.boardUnits.push(
       {id: 'new-board-unit', type: newUnit.type, x: newUnit.x, y: newUnit.y}
     );
-  }
-
-  onMousedown(e: MouseEvent, unit: any) {
-
-    // Important: unit can be string if unit is new from war room.
-
-    document['movingElementOffsetX'] = e.target.getAttribute('x') ? (e.target.getAttribute('x') - e.clientX) : (e.target.offsetLeft + e.target.offsetParent.offsetLeft);
-    document['movingElementOffsetY'] = e.target.getAttribute('y') ? (e.target.getAttribute('y') - e.clientY) : (e.target.offsetTop + e.target.offsetParent.offsetTop);
-
-    if (e.target.getAttribute('data-unit-new')) {
-      this.boardUnits.push(
-        {id: 'new-board-unit', type: e.target.getAttribute('data-unit-type'), x: document['movingElementOffsetX'], y: document['movingElementOffsetY']}
-      );
-    } else {
-      // Unless new unit, get mousedown target
-      document['movingElement'] = e.target;
-      let originTerritory = this.getParentElement(document['movingElement'], e);
-      unit.originTerritory = originTerritory.id;
-    }
-
-    document.addEventListener('mousemove', this.onMousemove, true);
-    e.preventDefault(); // https://stackoverflow.com/questions/9506041/javascript-events-mouseup-not-firing-after-mousemove
-  }
-
-  onMousemove(event: MouseEvent) {
-    let movingElement;
-
-    if (document.getElementById('new-board-unit')) {
-      movingElement = document.getElementById('new-board-unit');
-    } else {
-      movingElement = document['movingElement'];
-    }
-
-    let top = event.movementY + parseInt(movingElement.getAttribute('y'));
-    let left = event.movementX + parseInt(movingElement.getAttribute('x'));
-
-    movingElement.setAttribute('y', top);
-    movingElement.setAttribute('x', left);
-
-    document['movingElement'] = movingElement;
   }
 
   getParentElement(movingElement: any, event: MouseEvent) {
