@@ -8,8 +8,6 @@ export class DraggableDirective {
   @Input() unit: any;
   el: ElementRef;
   enableMove: boolean;
-  x: number;
-  y: number;
 
   @Output() onMousedownEvent:EventEmitter<any> = new EventEmitter<any>();
 
@@ -28,16 +26,18 @@ export class DraggableDirective {
         movingUnit = this.el.nativeElement;
       }
 
-      this.unit.y += event.movementY;
-      this.unit.x += event.movementX;
-      console.log(this.unit);
+      let top = event.movementY + parseInt(movingUnit.getAttribute('y'));
+      let left = event.movementX + parseInt(movingUnit.getAttribute('x'));
+
+      movingUnit.setAttribute('y', top);
+      movingUnit.setAttribute('x', left);
     }
   }
 
   @HostListener('mousedown', ['$event'])
   onMousedown(event: MouseEvent) {
     this.enableMove = true;
-    if ((this.el.nativeElement.tagName) === 'DIV' && (this.unit)) {
+    if (this.el.nativeElement.tagName === 'DIV') {
       this.unit.x = (event.target.offsetLeft + event.target.offsetParent.offsetLeft);
       this.unit.y = (event.target.offsetTop + event.target.offsetParent.offsetTop);
       this.el.nativeElement.style.display = 'none';
