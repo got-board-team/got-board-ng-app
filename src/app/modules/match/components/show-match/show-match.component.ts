@@ -47,10 +47,10 @@ export class ShowMatchComponent implements OnInit {
 
   match: Match;
   areas = MAP_AREAS;
-  warRoomUnits = [ {id: 'new-board-unit', type: 'footman', x: 0, y: 0},
-                   {id: 'new-board-unit', type: 'knight', x: 0, y: 0},
-                   {id: 'new-board-unit', type: 'siege-engine', x: 0, y: 0},
-                   {id: 'new-board-unit', type: 'boat', x: 0, y: 0} ]
+  warRoomUnits = [ {type: 'footman'},
+                   {type: 'knight'},
+                   {type: 'siege-engine'},
+                   {type: 'boat'} ]
   boardUnits = [{id: 1, type: 'footman', x: 685, y: 347, territoryId: 13}];
 
   constructor(private activatedRoute: ActivatedRoute, private matchService: MatchService, public router: Router) { }
